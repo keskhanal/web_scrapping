@@ -1,0 +1,11 @@
+#Vscode
+.vscode/
+
+
+#venv
+.venv
+
+
+#Pytest
+__pycache__
+.pytest*
