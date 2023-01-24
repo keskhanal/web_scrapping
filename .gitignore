@@ -9,3 +9,6 @@
 #Pytest
 __pycache__
 .pytest*
+
+
+data/
