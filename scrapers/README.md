@@ -8,4 +8,9 @@ The non-programmatic scrapers will likely be run in octoparse and processed via 
 
 
 
+To run the scrapers, you need to create `config.yml` from the template `config.yml.example`
+
+In the configuration file, fill in any required credentials for brightdata as well as marketplace specific credentials needed.
+
+
 
