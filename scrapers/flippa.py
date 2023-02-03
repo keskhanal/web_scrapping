@@ -108,7 +108,7 @@ if __name__ == '__main__':
 
     logpath = config.logconf['path']
     logfile = f'{logpath}/scraper_{MARKETPLACE}_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
-    logging.basicConfig(filename=logfile, level=config['logs']['level'], filemode='w', format='%(asctime)s - %(process)s - %(levelname)s - %(message)s')
+    logging.basicConfig(filename=logfile, level=config.logconf['level'], filemode='w', format='%(asctime)s - %(process)s - %(levelname)s - %(message)s')
 
     logging.info(f"Configuration -- \n {config} \n")
 

@@ -15,4 +15,4 @@ data/
 
 *.yml
 *.yaml
-
+*.log
