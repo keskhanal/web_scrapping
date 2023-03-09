@@ -24,5 +24,5 @@ deploy-job:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
   script:
-    - scp -o StrictHostKeyChecking=no scraper.zip ec2-user@ec2-3-110-121-255.ap-south-1.compute.amazonaws.com:/codebase
-    - ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-110-121-255.ap-south-1.compute.amazonaws.com "cd codebase;rm -rf scraper unzip scraper.zip; rm scraper.zip"
+    - scp -o StrictHostKeyChecking=no scraper.zip ec2-user@ec2-3-110-121-255.ap-south-1.compute.amazonaws.com:/home/ec2-user/codebase
+    - ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-110-121-255.ap-south-1.compute.amazonaws.com "cd home/ec2-user/codebase;rm -rf scraper unzip scraper.zip; rm scraper.zip"
