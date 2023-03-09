@@ -1,8 +1,21 @@
 stages:        
   - build
+  - deploy
 
-build-job:      
+build-job:
   stage: build
+  image: alpine
+  before_script:
+    - apk add zip
+  script:
+    - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/termalabs/dealflow scraper
+    - zip -r scraper.zip scraper
+  artifacts:
+    paths:
+      - scraper.zip
+
+deploy-job:      
+  stage: deploy
   image: alpine
   before_script:
     - apk add openssh-client
@@ -11,4 +24,5 @@ build-job:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
   script:
-    - ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-110-121-255.ap-south-1.compute.amazonaws.com "cd codebase; touch text.txt"
+    - scp -o StrictHostKeyChecking=no public.zip ec2-user@ec2-3-110-121-255.ap-south-1.compute.amazonaws.com:/codebase
+    - ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-110-121-255.ap-south-1.compute.amazonaws.com "cd codebase;rm -rf scraper unzip scraper.zip; rm scraper.zip"
