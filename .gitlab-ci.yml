@@ -6,7 +6,7 @@ build-job:
   stage: build
   image: alpine
   before_script:
-    - apk add zip
+    - apk add zip git
   script:
     - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/termalabs/dealflow scraper
     - zip -r scraper.zip scraper
