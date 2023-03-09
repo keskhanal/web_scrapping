@@ -11,4 +11,4 @@ build-job:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
   script:
-    - ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-110-121-255.ap-south-1.compute.amazonaws.com 
+    - ssh -o StrictHostKeyChecking=no ec2-user@ec2-3-110-121-255.ap-south-1.compute.amazonaws.com "cd codebase; touch text.txt"
