@@ -172,6 +172,7 @@ if __name__ == '__main__':
     new_recs = util.flush_to_db(all_recs, scribe, c)
 
 
+
     # uri = util.save_to_s3(
     #     MARKETPLACE,
     #     results_df, 
