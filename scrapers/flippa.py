@@ -75,10 +75,14 @@ def retrieve_page_results(page_num):
     }
     url = f'https://flippa.com/search?filter%5Bproperty_type%5D=website&filter%5Brevenue_generating%5D=T,F&filter%5Bsale_method%5D=auction,classified&filter%5Bsitetype%5D=content,blog,directory,review,forum-community&filter%5Bstatus%5D=open&format=js&search_template=most_relevant&page%5Bnumber%5D={page_num}&page%5Bsize%5D={100}'
     try:
-        response = requests.get(url, headers=headers, proxies=config.get_proxies())
+       
+        # response = requests.get(url, headers=headers, proxies=config.get_proxies())
+        response = requests.get(url, headers=headers)
+        
         data = json.loads(response.text)
         results = data['results']
         total_results = data['metadata']['totalResults']
+        
         return {
             'results': results,
             'total_results': total_results

@@ -120,7 +120,8 @@ def retrieve_page_results(token, page_num):
 
     url = f'https://api.empireflippers.com/api/v1/listings/marketplace'
     try:
-        response = requests.get(url, params=params, headers=headers, proxies=proxies)
+        # response = requests.get(url, params=params, headers=headers, proxies=proxies)
+        response = requests.get(url, params=params, headers=headers)
         data = json.loads(response.text)
         results = data['data']['listings']
         total_results = data['data']['count']
@@ -154,13 +155,15 @@ def scrape_all_pages(token, max_results=100000):
 
 if __name__ == '__main__':
 
-    logpath = config.logconf['path']
-    logfile = f'{logpath}/scraper_{MARKETPLACE}_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
-    logging.basicConfig(filename=logfile, level=config['logs']['level'], filemode='w', format='%(asctime)s - %(process)s - %(levelname)s - %(message)s')
+    #logpath = config.logconf['path']
+    #logfile = f'{logpath}/scraper_{MARKETPLACE}_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
+    #logging.basicConfig(filename=logfile, level=config['logs']['level'], filemode='w', format='%(asctime)s - %(process)s - %(levelname)s - %(message)s')
 
-    logging.info(f"Configuration -- \n {config} \n")
+    #logging.info(f"Configuration -- \n {config} \n")
 
-    all_recs = scrape_all_pages()
+    #TODO::change to config file 
+    token = retrieve_token("nikhil@termaproject.com", "N1kh1l87terma!")
+    all_recs = scrape_all_pages(token)
 
     scribe = ScribeEmpireFlippers()
     mongoclient = MongoClient(config.dbconf['connection_string'])
