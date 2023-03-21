@@ -95,6 +95,7 @@ def scrape_all_pages(max_results=100000):
     listings = []
     curr_page = 1 #Flippa starts with page 1, not 0
     data = retrieve_page_results(curr_page)
+    print(data)
     total = data['total_results']
     listings.extend(data['results'])
     logging.info(f'Retrived first set of results -- {len(listings)} out of a total of {total}')

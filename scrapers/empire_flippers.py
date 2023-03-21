@@ -164,7 +164,7 @@ if __name__ == '__main__':
     #TODO::change to config file changes
     token = retrieve_token("nikhil@termaproject.com", "N1kh1l87terma!")
     all_recs = scrape_all_pages(token)
-
+    print(all_recs)
     scribe = ScribeEmpireFlippers()
     mongoclient = MongoClient(config.dbconf['connection_string'])
     c = mongoclient[config.dbconf['db']][config.dbconf['collection']]
