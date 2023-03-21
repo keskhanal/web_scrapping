@@ -16,3 +16,5 @@ data/
 *.yml
 *.yaml
 *.log
+
+venv/
