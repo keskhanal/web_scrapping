@@ -161,7 +161,7 @@ if __name__ == '__main__':
 
     #logging.info(f"Configuration -- \n {config} \n")
 
-    #TODO::change to config file 
+    #TODO::change to config file changes
     token = retrieve_token("nikhil@termaproject.com", "N1kh1l87terma!")
     all_recs = scrape_all_pages(token)
 
