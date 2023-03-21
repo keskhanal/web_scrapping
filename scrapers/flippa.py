@@ -91,7 +91,7 @@ def retrieve_page_results(page_num):
         logging.error("Exception Occured", exc_info=True)
     
 
-def scrape_all_pages(max_results=100000):
+def scrape_all_pages(max_results=10):
     listings = []
     curr_page = 1 #Flippa starts with page 1, not 0
     data = retrieve_page_results(curr_page)

@@ -22,13 +22,13 @@ class ScribeEmpireFlippers(Scribe):
 
     def get_id(self, rec):
 
-        concatenated_fields = f"{self.marketplace()}{rec['listing_url']}"
+        concatenated_fields = f"{self.marketplace()}{rec['listing_number']}"
         sha256 = hashlib.sha256()
         sha256.update(concatenated_fields.encode())
         return sha256.hexdigest()
 
     def get_name(self, rec):
-        return rec['title']
+        return rec['public_title']
 
     def get_description(self, rec):
         return rec['summary']
@@ -37,10 +37,11 @@ class ScribeEmpireFlippers(Scribe):
         return self.marketplace()
 
     def get_url(self, rec):
-        return rec['listing_url']
+        return f"/listing/{rec['listing_number']}"
 
     def get_askingprice(self, rec):
-        p = Price.fromstring(str(rec['price']))
+        return str(rec['listing_price'])
+        p = Price.fromstring(str(rec['listing_price']))
         return {
             "amount": float(p.amount),
             "currency": p.currency if p.currency else 'USD'
@@ -133,7 +134,7 @@ def retrieve_page_results(token, page_num):
         logging.error("Exception Occured")
     
 
-def scrape_all_pages(token, max_results=100000):
+def scrape_all_pages(token, max_results=1):
     listings = []
     curr_page = 1 #Flippa starts with page 1, not 0
     data = retrieve_page_results(token, curr_page)
