@@ -2,19 +2,20 @@ stages:
   - build
   - deploy
 
-build-job:
+build-dev-job:
   stage: build
   image: alpine
   before_script:
     - apk add zip git
   script:
     - git clone https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/termalabs/scraper scraper
+    - cd scraper && git checkout dev && git pull origin dev
     - zip -r scraper.zip scraper
   artifacts:
     paths:
       - scraper.zip
 
-deploy-job:      
+deploy-dev-job:      
   stage: deploy
   image: alpine
   before_script:
