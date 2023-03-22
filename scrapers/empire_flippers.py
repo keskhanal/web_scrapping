@@ -121,7 +121,7 @@ def retrieve_page_results(token, page_num):
 
     url = f'https://api.empireflippers.com/api/v1/listings/marketplace'
     try:
-        # response = requests.get(url, params=params, headers=headers, proxies=proxies)
+        #response = requests.get(url, params=params, headers=headers, proxies=config.get_proxies())
         response = requests.get(url, params=params, headers=headers)
         data = json.loads(response.text)
         results = data['data']['listings']
@@ -131,7 +131,7 @@ def retrieve_page_results(token, page_num):
             'total_results': total_results
         }
     except Exception as e:
-        logging.error("Exception Occured")
+        logging.error("Exception Occured",e)
     
 
 def scrape_all_pages(token, max_results=1):
@@ -156,16 +156,15 @@ def scrape_all_pages(token, max_results=1):
 
 if __name__ == '__main__':
 
-    #logpath = config.logconf['path']
-    #logfile = f'{logpath}/scraper_{MARKETPLACE}_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
-    #logging.basicConfig(filename=logfile, level=config['logs']['level'], filemode='w', format='%(asctime)s - %(process)s - %(levelname)s - %(message)s')
+    logpath = config.logconf['path']
+    logfile = f'{logpath}/scraper_{MARKETPLACE}_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
+    logging.basicConfig(filename=logfile, level=config.logconf['level'], filemode='w', format='%(asctime)s - %(process)s - %(levelname)s - %(message)s')
 
-    #logging.info(f"Configuration -- \n {config} \n")
+    logging.info(f"Configuration -- \n {config} \n")
 
     #TODO::change to config file changes
-    token = retrieve_token("nikhil@termaproject.com", "N1kh1l87terma!")
+    token = retrieve_token(config.scraper_auth['empire_flippers']['email'], config.scraper_auth['empire_flippers']['pw'])
     all_recs = scrape_all_pages(token)
-    print(all_recs)
     scribe = ScribeEmpireFlippers()
     mongoclient = MongoClient(config.dbconf['connection_string'])
     c = mongoclient[config.dbconf['db']][config.dbconf['collection']]

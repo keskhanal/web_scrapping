@@ -75,9 +75,9 @@ def retrieve_page_results(page_num):
     }
     url = f'https://flippa.com/search?filter%5Bproperty_type%5D=website&filter%5Brevenue_generating%5D=T,F&filter%5Bsale_method%5D=auction,classified&filter%5Bsitetype%5D=content,blog,directory,review,forum-community&filter%5Bstatus%5D=open&format=js&search_template=most_relevant&page%5Bnumber%5D={page_num}&page%5Bsize%5D={100}'
     try:
-       
-        # response = requests.get(url, headers=headers, proxies=config.get_proxies())
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, proxies=config.get_proxies())
+        
+        #response = requests.get(url, headers=headers)
         
         data = json.loads(response.text)
         results = data['results']
@@ -95,7 +95,6 @@ def scrape_all_pages(max_results=10):
     listings = []
     curr_page = 1 #Flippa starts with page 1, not 0
     data = retrieve_page_results(curr_page)
-    print(data)
     total = data['total_results']
     listings.extend(data['results'])
     logging.info(f'Retrived first set of results -- {len(listings)} out of a total of {total}')
@@ -113,6 +112,7 @@ if __name__ == '__main__':
 
     logpath = config.logconf['path']
     logfile = f'{logpath}/scraper_{MARKETPLACE}_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
+    print(logfile)
     logging.basicConfig(filename=logfile, level=config.logconf['level'], filemode='w', format='%(asctime)s - %(process)s - %(levelname)s - %(message)s')
 
     logging.info(f"Configuration -- \n {config} \n")

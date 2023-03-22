@@ -1,13 +1,13 @@
 
 #logging
 logs:
-  path: '.'
+  path: './logs'
   level: 'INFO'
 
 #brightdata proxy
 proxy:
-  user: 
-  pw: 
+  user: brd-customer-hl_147834b0-zone-isp
+  pw: 1ed19tg95ozh
 # Where on S3 do the scrapers output their data
 s3_output_path:
   bucket: terma-dealflow 
@@ -15,8 +15,8 @@ s3_output_path:
 
 scraper_auth:
   empire_flippers:
-    email: 
-    pw: 
+    email: nikhil@termaproject.com
+    pw: N1kh1l87terma!
 
 
 db:
