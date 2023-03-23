@@ -12,18 +12,18 @@ logconf = config['logs']
 scraper_auth = config['scraper_auth']
 
 def get_proxies():
-    # proxy_user = proxyconf['user']
-    # proxy_pass = proxyconf['pw']
-    # proxies = {
-    #     'http': f'http://{proxy_user}:{proxy_pass}@zproxy.lum-superproxy.io:22225',
-    #     'https': f'https://{proxy_user}:{proxy_pass}@zproxy.lum-superproxy.io:22225'
-    #     }
-    proxy = FreeProxy(anonym=True, https=False).get()
-    print(proxy)
+    proxy_user = proxyconf['user']
+    proxy_pass = proxyconf['pw']
     proxies = {
-        'http': proxy,
-        'https': proxy
+        'http': f'http://{proxy_user}:{proxy_pass}@zproxy.lum-superproxy.io:22225',
+        'https': f'https://{proxy_user}:{proxy_pass}@zproxy.lum-superproxy.io:22225'
         }
-    print(proxies)
+    # proxy = FreeProxy(anonym=True, https=False).get()
+    # print(proxy)
+    # proxies = {
+    #     'http': proxy,
+    #     'https': proxy
+    #     }
+    # print(proxies)
     return proxies
 

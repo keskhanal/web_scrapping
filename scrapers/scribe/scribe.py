@@ -39,6 +39,18 @@ class Scribe(ABC):
     @abstractmethod
     def get_askingprice(self, rec):
         pass
+    
+    @abstractmethod
+    def get_niche(self, rec):
+        pass
+
+    @abstractmethod
+    def get_multiple(self, rec):
+        pass
+
+    @abstractmethod
+    def get_type(self, rec):
+        pass
 
     def standardize_record(self, rec):
         try:
@@ -51,6 +63,9 @@ class Scribe(ABC):
             new_rec['std_askingprice'] = self.get_askingprice(rec)
             new_rec['std_marketplace_id'] = self.get_marketplace_id(rec)
             new_rec['std_create_ts'] = str(datetime.now())
+            new_rec['std_niche'] = self.get_niche(rec)
+            new_rec['std_multiple'] = self.get_multiple(rec)
+            new_rec['std_type'] = self.get_type(rec)
             new_rec['status'] = 'NEW' # 'NEW' | 'SKIP' | 'IN_CLICKUP' 
         except Exception as e:
             logging.error(f"Error with record: {json.dumps(rec)}", exc_info=True)

@@ -37,15 +37,21 @@ class ScribeEmpireFlippers(Scribe):
         return self.marketplace()
 
     def get_url(self, rec):
-        return f"/listing/{rec['listing_number']}"
+        return f"https://empireflippers.com/listing/{rec['listing_number']}"
 
     def get_askingprice(self, rec):
-        return str(rec['listing_price'])
         p = Price.fromstring(str(rec['listing_price']))
-        return {
-            "amount": float(p.amount),
-            "currency": p.currency if p.currency else 'USD'
-        }
+        return str(float(p.amount)) +  str(p.currency if p.currency else 'USD')
+
+    def get_niche(self, rec):
+        niches = [nich["niche"] for nich in rec["niches"]]
+        return ','.join(niches)
+
+    def get_multiple(self, rec):
+        return rec["listing_multiple"]
+
+    def get_type(self, rec):
+        return ''
 
     def __init__(self):
         super().__init__()
@@ -121,8 +127,8 @@ def retrieve_page_results(token, page_num):
 
     url = f'https://api.empireflippers.com/api/v1/listings/marketplace'
     try:
-        #response = requests.get(url, params=params, headers=headers, proxies=config.get_proxies())
-        response = requests.get(url, params=params, headers=headers)
+        response = requests.get(url, params=params, headers=headers, proxies=config.get_proxies())
+        #response = requests.get(url, params=params, headers=headers)
         data = json.loads(response.text)
         results = data['data']['listings']
         total_results = data['data']['count']

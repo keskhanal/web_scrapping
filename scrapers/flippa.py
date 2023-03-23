@@ -41,10 +41,19 @@ class ScribeFlippa(Scribe):
 
     def get_askingprice(self, rec):
         p = Price.fromstring(str(rec['price']))
-        return {
-            "amount": float(p.amount),
-            "currency": p.currency if p.currency else 'USD'
-        }
+        return str(float(p.amount)) +  str(p.currency if p.currency else 'USD')
+
+    def get_niche(self, rec):
+        return rec['category']
+
+    def get_multiple(self, rec):
+        return rec["multiple"]
+
+    def get_type(self, rec):
+        return rec["property_type"]
+
+    def __init__(self):
+        super().__init__()
 
     def __init__(self):
         super().__init__()
@@ -78,7 +87,6 @@ def retrieve_page_results(page_num):
         response = requests.get(url, headers=headers, proxies=config.get_proxies())
         
         #response = requests.get(url, headers=headers)
-        
         data = json.loads(response.text)
         results = data['results']
         total_results = data['metadata']['totalResults']
@@ -112,7 +120,6 @@ if __name__ == '__main__':
 
     logpath = config.logconf['path']
     logfile = f'{logpath}/scraper_{MARKETPLACE}_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log'
-    print(logfile)
     logging.basicConfig(filename=logfile, level=config.logconf['level'], filemode='w', format='%(asctime)s - %(process)s - %(levelname)s - %(message)s')
 
     logging.info(f"Configuration -- \n {config} \n")
@@ -125,11 +132,11 @@ if __name__ == '__main__':
 
     new_recs = util.flush_to_db(all_recs, scribe, c)
 
-    df = pd.DataFrame(new_recs)
-    uri = util.save_to_s3(
-        MARKETPLACE,
-        df, 
-        config.config['s3_output_path']['bucket'],
-        config.config['s3_output_path']['prefix']
-    )
+    # df = pd.DataFrame(new_recs)
+    # uri = util.save_to_s3(
+    #     MARKETPLACE,
+    #     df, 
+    #     config.config['s3_output_path']['bucket'],
+    #     config.config['s3_output_path']['prefix']
+    # )
 
