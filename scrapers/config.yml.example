@@ -6,32 +6,32 @@ logs:
 
 #brightdata proxy
 proxy:
-  user: brd-customer-hl_147834b0-zone-isp
-  pw: 1ed19tg95ozh
+  user: 
+  pw: 
 # Where on S3 do the scrapers output their data
 s3_output_path:
-  bucket: terma-dealflow 
+  bucket: 
   prefix: inbound
 
 scraper_auth:
   empire_flippers:
-    email: nikhil@termaproject.com
-    pw: N1kh1l87terma!
+    email: 
+    pw: 
 
 
 db:
   test:
     connection_string: 'mongodb+srv://scribeuser:ex0GJe5tbyWUSRDs@dealflowdb.s6j76.mongodb.net/?retryWrites=true&w=majority'
-    host: "dealflowdb.s6j76.mongodb.net"
-    db: dealflow_dev
-    collection: alldeals_test
+    host: 
+    db: 
+    collection: 
   dev:
     connection_string: 'mongodb+srv://scribeuser:ex0GJe5tbyWUSRDs@dealflowdb.s6j76.mongodb.net/?retryWrites=true&w=majority'
     host: "dealflowdb.s6j76.mongodb.net"
-    db: dealflow_dev
-    collection: alldeals
+    db: 
+    collection: 
   prod:
     connection_string: 'mongodb+srv://scribeuser:ex0GJe5tbyWUSRDs@dealflowdb.s6j76.mongodb.net/?retryWrites=true&w=majority'
     host: "dealflowdb.s6j76.mongodb.net"
     db: dealflow
-    collection: alldeals
+    collection: 
