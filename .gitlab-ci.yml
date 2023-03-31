@@ -9,7 +9,7 @@ build-dev-job:
     - apk add zip git
   script:
     - git clone --branch dev https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/termalabs/scraper scraper
-    - cp $CONFIG_ENV scraper/scrapers/config.yml
+    - cp $ENV_CONFIG scraper/scrapers/config.yml
     - zip -r scraper.zip scraper
   artifacts:
     paths:
