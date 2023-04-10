@@ -16,6 +16,8 @@ build-dev-job:
       - scraper.zip
   only:
     - dev
+  tags:
+    - scraper
 
 deploy-dev-job:      
   stage: deploy
@@ -31,3 +33,5 @@ deploy-dev-job:
     - ssh -o StrictHostKeyChecking=no ec2-user@ec2-35-154-112-107.ap-south-1.compute.amazonaws.com "cd /home/ec2-user/codebase;rm -rf scraper/; unzip scraper.zip; rm scraper.zip;cd scraper;pip3.8 install -r requirements.txt;cd scrapers;"
   only:
     - dev
+  tags:
+    - scraper
