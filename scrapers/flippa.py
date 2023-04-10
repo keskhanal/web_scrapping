@@ -40,8 +40,7 @@ class ScribeFlippa(Scribe):
         return rec['listing_url']
 
     def get_askingprice(self, rec):
-        p = Price.fromstring(str(rec['price']))
-        return str(float(p.amount)) +  str(p.currency if p.currency else 'USD')
+        return rec['price'] if rec['price'] else 0
 
     def get_niche(self, rec):
         return rec['category']
@@ -52,11 +51,12 @@ class ScribeFlippa(Scribe):
     def get_type(self, rec):
         return rec["property_type"]
 
+    def get_currency(self, rec):
+        return 'USD'
+    
     def __init__(self):
         super().__init__()
 
-    def __init__(self):
-        super().__init__()
 
 
 

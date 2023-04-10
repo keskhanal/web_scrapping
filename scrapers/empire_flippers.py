@@ -40,8 +40,7 @@ class ScribeEmpireFlippers(Scribe):
         return f"https://empireflippers.com/listing/{rec['listing_number']}"
 
     def get_askingprice(self, rec):
-        p = Price.fromstring(str(rec['listing_price']))
-        return str(float(p.amount)) +  str(p.currency if p.currency else 'USD')
+        return rec['listing_price'] if rec['listing_price'] else 0
 
     def get_niche(self, rec):
         niches = [nich["niche"] for nich in rec["niches"]]
@@ -52,6 +51,9 @@ class ScribeEmpireFlippers(Scribe):
 
     def get_type(self, rec):
         return ''
+    
+    def get_currency(self, rec):
+        return 'USD'
 
     def __init__(self):
         super().__init__()

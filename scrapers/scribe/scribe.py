@@ -52,6 +52,10 @@ class Scribe(ABC):
     def get_type(self, rec):
         pass
 
+    @abstractmethod
+    def get_currency(self, rec):
+        pass
+
     def standardize_record(self, rec):
         try:
             new_rec = rec.copy()
@@ -66,6 +70,7 @@ class Scribe(ABC):
             new_rec['std_niche'] = self.get_niche(rec)
             new_rec['std_multiple'] = self.get_multiple(rec)
             new_rec['std_type'] = self.get_type(rec)
+            new_rec['std_currency'] = self.get_currency(rec)
             new_rec['status'] = 'NEW' # 'NEW' | 'SKIP' | 'IN_CLICKUP' 
         except Exception as e:
             logging.error(f"Error with record: {json.dumps(rec)}", exc_info=True)

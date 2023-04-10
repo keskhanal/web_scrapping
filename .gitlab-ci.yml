@@ -9,11 +9,15 @@ build-dev-job:
     - apk add zip git
   script:
     - git clone --branch dev https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/termalabs/scraper scraper
-    - cp $CONFIG_ENV scraper/scrapers/config.yml
+    - cp $ENV_CONFIG scraper/scrapers/config.yml
     - zip -r scraper.zip scraper
   artifacts:
     paths:
       - scraper.zip
+  only:
+    - dev
+  tags:
+    - scraper
 
 deploy-dev-job:      
   stage: deploy
@@ -27,3 +31,7 @@ deploy-dev-job:
   script:
     - scp -o StrictHostKeyChecking=no scraper.zip ec2-user@ec2-35-154-112-107.ap-south-1.compute.amazonaws.com:/home/ec2-user/codebase
     - ssh -o StrictHostKeyChecking=no ec2-user@ec2-35-154-112-107.ap-south-1.compute.amazonaws.com "cd /home/ec2-user/codebase;rm -rf scraper/; unzip scraper.zip; rm scraper.zip;cd scraper;pip3.8 install -r requirements.txt;cd scrapers;"
+  only:
+    - dev
+  tags:
+    - scraper
