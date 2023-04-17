@@ -85,3 +85,4 @@ wrapt==1.14.1
 yarl==1.8.2
 free-proxy==1.1.1
 selenium==4.8.3
+beautifulsoup4==4.11.2
