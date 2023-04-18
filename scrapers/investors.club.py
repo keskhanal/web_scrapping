@@ -13,7 +13,7 @@ from pymongo import MongoClient
 from datetime import datetime
 import hashlib
 import util
-
+import re
 
 MARKETPLACE = 'investors_club'
 
@@ -73,7 +73,7 @@ def scrape_investors_club():
     chrome_opts.add_argument('--disable-gpu')
     chrome_opts.add_argument('--remote-debugging-port=9222')
     driver = webdriver.Chrome(options=chrome_opts)
-    
+
     driver.get('https://investors.club/buy-online-business/')
     WebDriverWait(driver, 1000).until(EC.presence_of_element_located((By.CLASS_NAME, "redacted-card")))
     content = driver.page_source
@@ -130,7 +130,7 @@ def scrape_each_page_data(driver, url):
     seller_title = investor_soup.find('div', {'class': 'sellerinfo__heading'}).find('h1', {'class': 't-zeta s-bottom--lrg'}).text
     seller_description = investor_soup.find('div', {'class': 'sellerinfo__heading'}).find('p', {'class': 't-'}).text
     
-    investorclub_data['price'] = asking_price
+    investorclub_data['price'] = int(re.sub(r'[\$,]', '', asking_price))
     investorclub_data['listing_url'] = url
     investorclub_data['summary'] = seller_description
     investorclub_data['title'] = seller_title
