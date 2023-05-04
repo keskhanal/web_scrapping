@@ -108,7 +108,6 @@ def scrape_data(driver):
         feint_data.append(item_data)
         print(f"Business {title[:20]}... has been scrapped successfully!")
         i += 1
-        break
     driver.close()
     return feint_data
 
