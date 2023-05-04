@@ -79,21 +79,9 @@ def scrape_investors_club():
     content = driver.page_source
     doc = BeautifulSoup(content, "html.parser")
     for item in doc.body.find_all("li", {"class": "redacted-card"}):
-       # driver.get('https://investors.club'+item.a.get('href'))
        fetched_data = scrape_each_page_data(driver=driver, url='https://investors.club'+item.a.get('href'))
        time.sleep(10)
        listings.append(fetched_data)
-    
-    # fetched_data = scrape_each_page_data(driver=driver, url="https://investors.club/listings/MZPRyA3Sya7NlKWXWAXm/")
-    # listings.append(fetched_data)
-
-    # driver.get('https://investors.club/listings/R9ycey1ZsEyHpz9gZJfv/')
-    # WebDriverWait(driver, 1000).until(EC.presence_of_element_located((By.CLASS_NAME, "sellerinfo")))
-    # content = driver.page_source
-    # doc = BeautifulSoup(content, "html.parser")
-    # sellerinfo = doc.body.find('section',{"class":"sellerinfo"})
-    # generalinfo = doc.body.find('section',{"class":"generalinfo"})
-    #print(fetched_data)
     driver.close()
     return listings
 
