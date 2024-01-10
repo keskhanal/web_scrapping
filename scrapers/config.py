@@ -1,15 +1,10 @@
 from ruamel.yaml import YAML
-
 from fp.fp import FreeProxy
 
 yaml = YAML()
 config = yaml.load(open('config.yml'))
-
 dbconf = config['db'][config['env']]
-
-
 proxyconf = config['proxy']
-
 logconf = config['logs']
 scraper_auth = config['scraper_auth']
 

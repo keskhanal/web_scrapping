@@ -1,10 +1,10 @@
-from abc import ABC, abstractmethod
-from pymongo import MongoClient
-from price_parser import Price
+import json
 import hashlib
 import logging
+from pymongo import MongoClient
+from price_parser import Price
 from datetime import datetime
-import json
+from abc import ABC, abstractmethod
 
 
 class Scribe(ABC):
@@ -86,5 +86,4 @@ class Scribe(ABC):
         else:
             # Record already exists, do not insert it
             return (True, existing_record)
-        return
-
+        

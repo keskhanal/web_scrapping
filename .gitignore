@@ -1,15 +1,12 @@
 #Vscode
 .vscode/
 
-
 #venv
 .venv
-
 
 #Pytest
 __pycache__
 .pytest*
-
 
 data/
 
@@ -19,4 +16,8 @@ data/
 
 venv/
 
+# logs file
 scrapers/logs/*.log
+
+# notebook files
+/notebooks/*

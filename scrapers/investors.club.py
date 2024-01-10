@@ -1,19 +1,20 @@
+import re
+import sys
+import util
+import time
+import config
+import hashlib
+import logging
+from datetime import datetime
+from scribe.scribe import Scribe
+from pymongo import MongoClient
+
+from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import config
 from selenium.webdriver.common.by import By
-from bs4 import BeautifulSoup
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-import sys
-import time
-from scribe.scribe import Scribe
-import logging
-from pymongo import MongoClient
-from datetime import datetime
-import hashlib
-import util
-import re
 
 MARKETPLACE = 'investors_club'
 
@@ -150,4 +151,4 @@ if __name__ == '__main__':
     mongoclient = MongoClient(config.dbconf['connection_string'])
     c = mongoclient[config.dbconf['db']][config.dbconf['collection']]
 
-    new_recs = util.flush_to_db(all_recs, scribe, c)
+    # new_recs = util.flush_to_db(all_recs, scribe, c)

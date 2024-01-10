@@ -1,16 +1,16 @@
-import requests
 import sys
-import json
-import logging
 import time
-import pandas as pd
 import util
+import json
 import config
+import hashlib
+import logging
+import requests
+import pandas as pd
 from pymongo import MongoClient
 from datetime import datetime
 from scribe.scribe import Scribe
 from price_parser import Price
-import hashlib
 
 MARKETPLACE = 'flippa'
 
@@ -21,7 +21,6 @@ class ScribeFlippa(Scribe):
         return MARKETPLACE
 
     def get_id(self, rec):
-
         concatenated_fields = f"{self.marketplace()}{rec['listing_url']}"
         sha256 = hashlib.sha256()
         sha256.update(concatenated_fields.encode())
@@ -58,14 +57,10 @@ class ScribeFlippa(Scribe):
         super().__init__()
 
 
-
-
-"""
-    This retrieves page results using flippa's api. 
-    There doesn't seem to be any authentication needed!
-"""
 def retrieve_page_results(page_num):
-
+    """This retrieves page results using flippa's api. 
+        There doesn't seem to be any authentication needed!
+    """
     headers = {
         'authority': 'flippa.com',
         'accept': 'application/json, text/plain, */*',
@@ -104,6 +99,7 @@ def scrape_all_pages(max_results=10):
     curr_page = 1 #Flippa starts with page 1, not 0
     data = retrieve_page_results(curr_page)
     total = data['total_results']
+
     listings.extend(data['results'])
     logging.info(f'Retrived first set of results -- {len(listings)} out of a total of {total}')
     while len(listings) < total and len(listings) < max_results:
@@ -130,7 +126,7 @@ if __name__ == '__main__':
     mongoclient = MongoClient(config.dbconf['connection_string'])
     c = mongoclient[config.dbconf['db']][config.dbconf['collection']]
 
-    new_recs = util.flush_to_db(all_recs, scribe, c)
+    # new_recs = util.flush_to_db(all_recs, scribe, c)
 
     # df = pd.DataFrame(new_recs)
     # uri = util.save_to_s3(

@@ -1,10 +1,11 @@
 import logging
-from datetime import datetime 
 import pandas as pd
+from datetime import datetime 
 from scribe.scribe import Scribe
 
-# Using BrightData services, this returns the proxy servers
 def get_proxies(user: str, pw: str):
+    """Using BrightData services, this returns the proxy servers.
+    """
     proxy_user = user 
     proxy_pass = pw 
     proxies = {
@@ -12,6 +13,7 @@ def get_proxies(user: str, pw: str):
         'https': f'http://{proxy_user}:{proxy_pass}@zproxy.lum-superproxy.io:22225'
         }
     return proxies
+
 
 def save_to_s3(MARKETPLACE: str, df: pd.DataFrame, bucket_name:  str, prefix: str, access_key: str = None, secret_key: str = None):
     dtstr = datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -30,10 +32,9 @@ def save_to_s3(MARKETPLACE: str, df: pd.DataFrame, bucket_name:  str, prefix: st
         logging.error('Exception while saving results', exc_info=True)
 
 
-"""
-Flushes all the scraped records to mongo using Scribe service
-"""
 def flush_to_db(recs, scribe: Scribe, mongo_collection):
+    """Flushes all the scraped records to mongo using Scribe service
+    """
     N = len(recs)
     new_recs = []
     logging.info(f"Flushing {N} records")

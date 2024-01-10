@@ -1,32 +1,30 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-import config
-from selenium.webdriver.common.by import By
-from bs4 import BeautifulSoup
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
+import re
 import sys
 import time
-from scribe.scribe import Scribe
-import logging
-from pymongo import MongoClient
-from datetime import datetime
-import hashlib
 import util
-import re
+import config
+import hashlib
+import logging
+from datetime import datetime
+from pymongo import MongoClient
+from scribe.scribe import Scribe
 
+from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 
 MARKETPLACE = 'motion_invest'
 
 class ScribeMotionInvest(Scribe):
-
-    # TODO is this okay?
     def marketplace(self):
         return MARKETPLACE
 
     def get_id(self, rec):
-
         concatenated_fields = f"{self.marketplace()}{rec['listing_url']}"
         sha256 = hashlib.sha256()
         sha256.update(concatenated_fields.encode())
@@ -63,9 +61,13 @@ class ScribeMotionInvest(Scribe):
         super().__init__()
 
 
+# from selenium import webdriver
+# driver = webdriver.Chrome(ChromeDriverManager().install())
+
 def scrape_motion_invest():
     site_username = 'subashb@termaproject.com'
     site_password = 'motioninvest123!@#'
+    
     # proxies=config.get_proxies()
     chrome_opts = Options()
 
@@ -79,7 +81,7 @@ def scrape_motion_invest():
     proxy_config = f"{proxies['https']}"
     chrome_opts.add_argument = f'proxy-server={proxy_config}'
 
-    driver = webdriver.Chrome(options=chrome_opts)
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_opts)
     driver.set_page_load_timeout(120)
     return scrape_data(driver, site_username, site_password)
 
@@ -103,6 +105,7 @@ def login(driver, site_username, site_password):
 
 
 def scrape_data(driver, site_username, site_password):
+    # login to site
     login(driver, site_username, site_password)
     motioninvest_data = []
     url = "https://www.motioninvest.com/sites-available/"
@@ -165,9 +168,7 @@ def scrape_data(driver, site_username, site_password):
 
 
 def navigate_single_page(driver, url):
-    
-    """
-    search by URL
+    """search by URL
     """
     driver.get(url)
     WebDriverWait(driver, 20).until(
@@ -188,4 +189,4 @@ if __name__ == '__main__':
     mongoclient = MongoClient(config.dbconf['connection_string'])
     c = mongoclient[config.dbconf['db']][config.dbconf['collection']]
 
-    new_recs = util.flush_to_db(all_recs, scribe, c)
+    #new_recs = util.flush_to_db(all_recs, scribe, c)
