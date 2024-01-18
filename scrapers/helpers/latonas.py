@@ -154,7 +154,7 @@ def extract_revenue_sources(soup):
 def extract_numbers(soup):  
     try:
         numbers = soup.find_all('span', attrs={"class": "numbers ct-fw-600"})
-        revenue, profit, asking_price = [number.get_text() for number in numbers]
+        revenue, profit, asking_price = [int(number.get_text()) for number in numbers]
     except:
         revenue, profit, asking_price = None, None, None
     return revenue, profit, asking_price

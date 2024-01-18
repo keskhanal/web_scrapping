@@ -26,7 +26,7 @@ class ScribeLatonas(Scribe):
         return sha256.hexdigest()
     
     def marketplace(self):
-        return "hitchat"
+        return "hatchit"
     
     def get_name(self, rec):
         return rec['Title']
@@ -58,7 +58,7 @@ class ScribeLatonas(Scribe):
     def get_currency(self, rec):
         asking_price = rec["Price"]
         asking_price = Price.fromstring(asking_price)
-        currency = asking_price.currency
+        currency = int(asking_price.currency)
         
         return currency 
 
@@ -69,7 +69,7 @@ class ScribeLatonas(Scribe):
 def chrome_driver_setup():
     chrome_options = Options()
 
-    chrome_options.add_argument('--headless')
+    # chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-infobars')
     chrome_options.add_argument('--disable-dev-shm-usage')
@@ -89,16 +89,11 @@ def chrome_driver_setup():
     try:
         service = Service(ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=chrome_options)
-        driver.set_page_load_timeout(120)
-        
     except:
-        driver.quit()
-        time.sleep(4)
-        service = Service(ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=service, options=chrome_options)
-        driver.set_page_load_timeout(120)
+        driver = webdriver.Chrome(options=chrome_options)
         
     finally:
+        driver.set_page_load_timeout(120)
         return driver 
 
 
@@ -108,7 +103,7 @@ def extract_content(driver, url):
         driver.get(url)
 
         # element to be present on the page
-        element_present = EC.presence_of_element_located((By.ID, 'custom-directory-table'))
+        element_present = EC.presence_of_element_located((By.CLASS_NAME, 'w2dc-table w2dc-dashboard-listings w2dc-table-striped bm-table-search'))
         WebDriverWait(driver, 20).until(element_present)
     
         # proceed to extract content
@@ -124,7 +119,7 @@ def extract_content(driver, url):
 
 
 def get_table_data(deal_soup):
-    table_data = deal_soup.find('table', {'id': 'custom-directory-table'})
+    table_data = deal_soup.find('table', {'class': 'w2dc-table w2dc-dashboard-listings w2dc-table-striped bm-table-search'})
     rows = table_data.find_all('tr')
 
     # Extract column headers from the first row
